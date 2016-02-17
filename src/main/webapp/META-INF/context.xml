@@ -1,0 +1,8 @@
+<Context>
+
+    <Resource name="jdbc/rader" auth="Container" type="javax.sql.DataSource"
+              maxActive="50" maxIdle="30" maxWait="10000"
+              username="rader" password="rader"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/rader"/>
+</Context>
