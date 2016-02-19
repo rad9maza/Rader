@@ -1,6 +1,6 @@
 package ua.rbolck.rader.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Post {
 
@@ -10,9 +10,9 @@ public class Post {
     private int likes;
     private int dislikes;
     private User author;
-    private Date creationDate;
+    private Timestamp creationDate;
 
-    public Post(int id, String title, String content, int likes, int dislikes, User author, Date creationDate) {
+    public Post(int id, String title, String content, int likes, int dislikes, User author, Timestamp creationDate) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -20,6 +20,10 @@ public class Post {
         this.dislikes = dislikes;
         this.author = author;
         this.creationDate = creationDate;
+    }
+
+    public String toString() {
+        return "Post with id = " + id + ", has title: " + title + ", content: " + content + ", and creationDate: " + creationDate.toString();
     }
 
     public int getId() {
@@ -70,11 +74,11 @@ public class Post {
         this.author = author;
     }
 
-    public Date getCreationDate() {
+    public Timestamp getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
 }

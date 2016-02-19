@@ -5,13 +5,17 @@ public class User {
     private int id;
     private String username;
     private String password;
-    private String role;
+    private int group_id;
 
-    public User(int id, String username, String password, String role) {
+    public String toString() {
+        return "User with id = " + id + ", has name: " + username;
+    }
+
+    public User(int id, int group_id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.group_id = group_id;
     }
 
     public int getId() {
@@ -38,11 +42,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public int getGroup_id() {
+        return group_id;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setGroup_id(int group_id) {
+        this.group_id = group_id;
     }
 }
