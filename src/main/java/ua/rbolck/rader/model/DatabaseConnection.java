@@ -24,8 +24,7 @@ public class DatabaseConnection implements Closeable {
     public static DatabaseConnection getInstance() {
         if (instance == null) {
             return instance = new DatabaseConnection();
-        }
-        else return instance;
+        } else return instance;
     }
 
     private DatabaseConnection() {
@@ -43,17 +42,19 @@ public class DatabaseConnection implements Closeable {
 
     public Connection getConnection() throws SQLException {
         if (connection == null) {
-            return connection = this.dataSource.getConnection();
+            log.info("Open new connection");
+            connection = this.dataSource.getConnection();
         }
-        else return connection;
+        log.info("Connection was been");
+        return connection;
     }
 
     @Override
     public void close() throws IOException {
-
         try {
-            instance.close();
+//            instance.close();
             connection.close();
+            connection = null;
         } catch (SQLException e) {
             log.error("SQLException while closing DatabaseConnection", e);
         }
