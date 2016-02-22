@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Collection;
 
-import static ua.rbolck.rader.dao.UserDAOImpl.getUserbyId;
-
 public class PostDAOImpl implements PostDAOI {
 
     private static final Logger log = Logger.getLogger(PostDAOImpl.class);
@@ -30,7 +28,7 @@ public class PostDAOImpl implements PostDAOI {
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     post = new Post(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4),
-                            resultSet.getInt(5), resultSet.getInt(6), getUserbyId(resultSet.getInt(7)),
+                            resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7),
                             resultSet.getTimestamp(8));
 
                     log.info("Get " + post.toString());
@@ -55,7 +53,7 @@ public class PostDAOImpl implements PostDAOI {
                 log.info("Get posts:");
                 while (resultSet.next()) {
                     post = new Post(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4),
-                            resultSet.getInt(5), resultSet.getInt(6), getUserbyId(resultSet.getInt(7)),
+                            resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7),
                             resultSet.getTimestamp(8));
                     log.info(post.toString());
                     posts.add(post);
@@ -81,7 +79,7 @@ public class PostDAOImpl implements PostDAOI {
                 log.info("Get last " + limit + " posts:");
                 while (resultSet.next()) {
                     post = new Post(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4),
-                            resultSet.getInt(5), resultSet.getInt(6), getUserbyId(resultSet.getInt(7)),
+                            resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7),
                             resultSet.getTimestamp(8));
 
                     log.info(post.toString());
