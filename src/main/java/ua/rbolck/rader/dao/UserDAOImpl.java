@@ -21,10 +21,6 @@ public class UserDAOImpl implements UserDAOI {
 
     @Override
     public User get(int id) {
-        return getUserbyId(id);
-    }
-
-    public static User getUserbyId(int id) {
         User user = null;
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
