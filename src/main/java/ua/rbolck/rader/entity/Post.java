@@ -1,6 +1,9 @@
 package ua.rbolck.rader.entity;
 
-import java.util.Date;
+import ua.rbolck.rader.dao.UserDAOI;
+import ua.rbolck.rader.dao.UserDAOImpl;
+
+import java.sql.Timestamp;
 
 public class Post {
 
@@ -9,10 +12,11 @@ public class Post {
     private String content;
     private int likes;
     private int dislikes;
+    private int authorId;
     private User author;
-    private Date creationDate;
+    private Timestamp creationDate;
 
-    public Post(int id, String title, String content, int likes, int dislikes, User author, Date creationDate) {
+    public Post(int id, String title, String content, int likes, int dislikes, User author, Timestamp creationDate) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -20,6 +24,20 @@ public class Post {
         this.dislikes = dislikes;
         this.author = author;
         this.creationDate = creationDate;
+    }
+
+    public Post(int id, String title, String content, int likes, int dislikes, int userId, Timestamp creationDate) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.authorId = userId;
+        this.creationDate = creationDate;
+    }
+
+    public String toString() {
+        return "Post with id = " + id + ", has title: " + title + ", content: " + content + ", and creationDate: " + creationDate.toString();
     }
 
     public int getId() {
@@ -62,7 +80,19 @@ public class Post {
         this.dislikes = dislikes;
     }
 
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
     public User getAuthor() {
+        if (this.author == null) {
+            UserDAOI userDAO = new UserDAOImpl();
+            this.author = userDAO.get(this.authorId);
+        }
         return author;
     }
 
@@ -70,11 +100,11 @@ public class Post {
         this.author = author;
     }
 
-    public Date getCreationDate() {
+    public Timestamp getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
 }

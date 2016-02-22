@@ -9,9 +9,9 @@ public interface UserDAOI {
 
     Collection<User> getAll();
 
-    Collection<User> getAllLimited(int limit);
+    Collection<User> getAllUsersFromGroup(int groupID);
 
-    boolean save(User post);
+    boolean save(User user);
 
     boolean remove(int id);
 

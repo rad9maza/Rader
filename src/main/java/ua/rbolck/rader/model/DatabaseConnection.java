@@ -17,42 +17,48 @@ public class DatabaseConnection implements Closeable {
     private DataSource dataSource;
     private Connection connection;
 
-    //TODO implement logger
     private static final Logger log = Logger.getLogger(DatabaseConnection.class);
 
-    private static DatabaseConnection instance = new DatabaseConnection();
+    private static DatabaseConnection instance;
 
     public static DatabaseConnection getInstance() {
-        return instance;
+        if (instance == null) {
+            return instance = new DatabaseConnection();
+        } else return instance;
     }
-
 
     private DatabaseConnection() {
         try {
             Context ctx = new InitialContext();
             this.dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/rader");
-            this.connection = this.dataSource.getConnection();
-            System.out.println("Opened connection");
+            this.connection = getConnection();
+            log.info("Opened connection");
         } catch (NamingException e) {
-            e.printStackTrace();
+            log.error("NamingException while creating DatabaseConnection", e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQLException while creating DatabaseConnection", e);
         }
     }
 
     public Connection getConnection() throws SQLException {
-        return this.connection;
+        if (connection == null) {
+            log.info("Open new connection");
+            connection = this.dataSource.getConnection();
+        }
+        log.info("Connection was been");
+        return connection;
     }
 
     @Override
     public void close() throws IOException {
-
         try {
-            this.connection.close();
+//            instance.close();
+            connection.close();
+            connection = null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQLException while closing DatabaseConnection", e);
         }
-        System.out.println("Closed connection");
+        log.info("Closed connection");
     }
 }
 
