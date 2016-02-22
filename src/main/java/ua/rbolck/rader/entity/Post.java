@@ -32,7 +32,7 @@ public class Post {
         this.content = content;
         this.likes = likes;
         this.dislikes = dislikes;
-        this.authorId = authorId;
+        this.authorId = userId;
         this.creationDate = creationDate;
     }
 

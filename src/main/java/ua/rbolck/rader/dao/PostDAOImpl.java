@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Collection;
 
-import static ua.rbolck.rader.dao.UserDAOImpl.getUserbyId;
-
 public class PostDAOImpl implements PostDAOI {
 
     private static final Logger log = Logger.getLogger(PostDAOImpl.class);
