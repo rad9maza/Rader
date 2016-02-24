@@ -19,28 +19,26 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jspName = "allPosts.jsp";
         PostDAOI postDAO = new PostDAOImpl();
         String action = req.getParameter("action");
-        int id = 1;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
+        String idParam = req.getParameter("id");
+        int id = Integer.parseInt((idParam == null || "".equals(idParam)) ? "0" : idParam);
 
-            if ((action == null || "".equals(action) && (id == 0 || "".equals(id)))) {
-                Collection<Post> posts = postDAO.getAll();
-                req.setAttribute("posts", posts);
-                jspName = "allPosts.jsp";
-            } else if ("edit".equals(action)) {
-                Post post = postDAO.get(id);
-                if (post != null) {
-                    req.setAttribute("post", post);
-                    jspName = "edit.jsp";
-                } else {
-                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        try {
+            String jspName = "allPosts.jsp";
+            if (!(action == null || "".equals(action))) {
+                if ("edit".equals(action) && (id != 0)) {
+                    Post post = postDAO.get(id);
+                    if (post != null) {
+                        req.setAttribute("post", post);
+                        jspName = "edit.jsp";
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    }
+                } else if ("new".equals(action)) {
+                    jspName = "add.jsp";
                 }
-            } else if ("new".equals(action)) {
-                jspName = "add.jsp";
-            } else {
+            } else if (id != 0) {
                 Post post = postDAO.get(id);
                 if (post != null) {
                     req.setAttribute("post", post);
@@ -48,12 +46,14 @@ public class PostServlet extends HttpServlet {
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
+            } else {
+                Collection<Post> posts = postDAO.getAll();
+                req.setAttribute("posts", posts);
             }
-
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(jspName);
             requestDispatcher.forward(req, resp);
         } catch (NumberFormatException e) {
-            log.error("NumberFormatException present while get parameter id = " + req.getParameter("id"), e);
+            log.error("NumberFormatException present while get parameter id = " + id, e);
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
 
