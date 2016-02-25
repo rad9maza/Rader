@@ -6,6 +6,7 @@ import ua.rbolck.rader.model.DatabaseConnection;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDAOImpl implements UserDAOI {
@@ -43,7 +44,7 @@ public class UserDAOImpl implements UserDAOI {
 
     @Override
     public Collection<User> getAll() {
-        Collection<User> users = null;
+        Collection<User> users = new ArrayList<>();
         User user;
 
         try (DatabaseConnection db = DatabaseConnection.getInstance();
@@ -67,7 +68,7 @@ public class UserDAOImpl implements UserDAOI {
 
     @Override
     public Collection<User> getAllUsersFromGroup(int groupID) {
-        Collection<User> users = null;
+        Collection<User> users = new ArrayList<>();
         User user;
 
         try (DatabaseConnection db = DatabaseConnection.getInstance();

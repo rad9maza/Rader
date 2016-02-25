@@ -6,6 +6,7 @@ import ua.rbolck.rader.model.DatabaseConnection;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class PostDAOImpl implements PostDAOI {
@@ -43,7 +44,7 @@ public class PostDAOImpl implements PostDAOI {
     }
 
     public Collection<Post> getAll() {
-        Collection<Post> posts = null;
+        Collection<Post> posts = new ArrayList<>();
         Post post;
 
         try (DatabaseConnection db = DatabaseConnection.getInstance();
@@ -68,7 +69,7 @@ public class PostDAOImpl implements PostDAOI {
     }
 
     public Collection<Post> getAllLimited(int limit) {
-        Collection<Post> posts = null;
+        Collection<Post> posts = new ArrayList<>();
         Post post;
 
         try (DatabaseConnection db = DatabaseConnection.getInstance();
