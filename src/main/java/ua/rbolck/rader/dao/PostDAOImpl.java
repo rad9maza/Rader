@@ -69,7 +69,7 @@ public class PostDAOImpl implements PostDAOI {
     }
 
     public Collection<Post> getAllLimited(int limit) {
-        Collection<Post> posts = null;
+        Collection<Post> posts = new ArrayList<>();
         Post post;
 
         try (DatabaseConnection db = DatabaseConnection.getInstance();
