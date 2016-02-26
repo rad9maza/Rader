@@ -7,24 +7,9 @@
     <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
 </head>
 <body>
-<div class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/index.jsp">Rader</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/post">Feed</a></li>
-                <li><a href="/users.html">Users</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">User</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<jsp:include page="header.jsp" />
 <div class="container" style="width:80%;">
-        <%Post post = (Post) request.getAttribute("post");%>
+    <%Post post = (Post) request.getAttribute("post");%>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><b><%=post.getAuthor().getUsername()%>: </b><%=post.getTitle()%>
@@ -40,5 +25,6 @@
         </div>
 
     </div>
+</div>
 </body>
 </html>
