@@ -1,9 +1,16 @@
-<%@ page import="ua.rbolck.rader.entity.Post" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: robo0914
+  Date: 26.02.2016
+  Time: 15:09
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Post</title>
     <meta charset="utf-8">
+    <title>Welcome in the Rader</title>
     <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
 </head>
 <body>
@@ -24,21 +31,11 @@
     </div>
 </div>
 <div class="container" style="width:80%;">
-        <%Post post = (Post) request.getAttribute("post");%>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><b><%=post.getAuthor().getUsername()%>: </b><%=post.getTitle()%>
-                <a href="" style="float: right;"><span class="badge"><%=post.getLikes()%></span> <span
-                        class="glyphicon glyphicon-chevron-down"></span></a>
-                <a href="" style="float: right;"><span class="badge"><%=post.getDislikes()%></span> <span
-                        class="glyphicon glyphicon-chevron-up">&nbsp;</span></a>
-            </h3>
-        </div>
-
-        <div class="panel-body">
-            <%=post.getContent()%>
-        </div>
-
+    <div class="jumbotron" style="padding-left: 60px; padding-right: 60px;">
+        <h1>HTTP Status 404</h1>
+        <br><br>
+        <p><strong>The requested resource is not available.</strong></p>
     </div>
+</div>
 </body>
 </html>
