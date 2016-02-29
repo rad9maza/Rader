@@ -23,9 +23,12 @@
                         <% if ("allUsers.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
                 ><a href="/allUsers.jsp">Users</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">User</a></li>
-            </ul>
+            <form action="LogoutServlet" method="post" id="super">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">User</a></li>
+                    <li><a href="#" onclick="document.getElementById('super').submit(value='Logout')">Logout</a></li>
+                </ul>
+            </form>
         </div>
     </div>
 </div>
