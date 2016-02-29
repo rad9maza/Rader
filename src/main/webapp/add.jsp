@@ -3,9 +3,25 @@
 <html>
 <head>
     <title>Add</title>
+    <meta charset="utf-8">
+    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
 </head>
 <body>
-New
-
+<jsp:include page="header.jsp" />
+<div class="container" style="width:80%;">
+    <form role="form">
+        <div class="form-group">
+            <label for="title">Заголовок</label>
+            <input type="text" class="form-control" id="title" placeholder="Title" value="">
+        </div>
+        <div class="form-group">
+            <label for="textOfPost">Содержимое</label>
+            <textarea class="form-control" id="textOfPost" rows="3" placeholder="Text of post"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default btn-lg">Add post</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
