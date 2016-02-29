@@ -1,3 +1,4 @@
+<%@ page import="ua.rbolck.rader.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,18 +15,23 @@
                 <%
                     String[] urls = request.getRequestURL().toString().split("/");
                     String url = urls[urls.length - 1];
+                    User user = (User) session.getAttribute("user");
                 %>
                 <li
                         <% if ("allPosts.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
                 ><a href="/post">Feed</a>
                 </li>
                 <li
+                        <% if ("add.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
+                ><a href="/add.jsp">Add Post</a></li>
+                <li
                         <% if ("allUsers.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
                 ><a href="/allUsers.jsp">Users</a></li>
             </ul>
             <form action="LogoutServlet" method="post" id="super">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">User</a></li>
+                    <li><a href="#"><%=user.getUsername()%>
+                    </a></li>
                     <li><a href="#" onclick="document.getElementById('super').submit(value='Logout')">Logout</a></li>
                 </ul>
             </form>
