@@ -14,6 +14,8 @@ public class UserDAOImpl implements UserDAOI {
     private static final Logger log = Logger.getLogger(PostDAOImpl.class);
 
     public static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id = ?";
+    public static final String GET_USER_BY_CREDENTIALS_QUERY = "SELECT * FROM users WHERE user_name = ? AND user_password = ?";
+
     public static final String GET_ALL_USERS = "SELECT * FROM users";
     public static final String GET_ALL_USERS_FROM_GROUP = "SELECT * FROM users WHERE group_id = ?";
 
@@ -124,5 +126,28 @@ public class UserDAOImpl implements UserDAOI {
             log.error("IOException present while remove user by id=" + id, e);
         }
         return false;
+    }
+
+    @Override
+    public User getByCredentials(String login, String password) {
+        User user = null;
+        try (DatabaseConnection db = DatabaseConnection.getInstance();
+             Connection connection = db.getConnection();
+             PreparedStatement ps = connection.prepareStatement(GET_USER_BY_CREDENTIALS_QUERY)) {
+            ps.setString(1, login);
+            ps.setString(2, password);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new User(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));
+
+                    log.info("Get " + user.toString());
+                }
+            }
+        } catch (SQLException e) {
+            log.error("SQLException present while getting user by id=" + login, e);
+        } catch (IOException e) {
+            log.error("IOException present while getting user by id=" + login, e);
+        }
+        return user;
     }
 }
