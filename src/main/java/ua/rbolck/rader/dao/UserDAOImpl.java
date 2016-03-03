@@ -16,11 +16,33 @@ public class UserDAOImpl implements UserDAOI {
     public static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id = ?";
     public static final String GET_USER_BY_CREDENTIALS_QUERY = "SELECT * FROM users WHERE user_name = ? AND user_password = ?";
 
+    public static final String GET_GROUP_BY_ID = "SELECT * FROM users WHERE user_id = (SELECT group_id FROM users WHERE user_id = ?)";
+
     public static final String GET_ALL_USERS = "SELECT * FROM users";
     public static final String GET_ALL_USERS_FROM_GROUP = "SELECT * FROM users WHERE group_id = ?";
 
     private static final String INSERT_USER = "INSERT INTO users VALUES(DEFAULT, ?, ?, ?)";
     private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
+
+    public User getGroup(int id) {
+        User group = null;
+        try (DatabaseConnection db = DatabaseConnection.getInstance();
+             Connection connection = db.getConnection();
+             PreparedStatement ps = connection.prepareStatement(GET_GROUP_BY_ID)) {
+            ps.setInt(1, id);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    group = new User(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));
+                    log.info("Get " + group.toString());
+                }
+            }
+        } catch (SQLException e) {
+            log.error("SQLException present while getting user by id=" + id, e);
+        } catch (IOException e) {
+            log.error("IOException present while getting user by id=" + id, e);
+        }
+        return group;
+    }
 
     @Override
     public User get(int id) {

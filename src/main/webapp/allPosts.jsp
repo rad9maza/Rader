@@ -10,9 +10,7 @@
 <body>
 <jsp:include page="header.jsp" />
 <div class="container" style="width:80%;">
-    <%
-        Collection<Post> posts = (Collection<Post>) request.getAttribute("posts");
-    %>
+    <%Collection<Post> posts = (Collection<Post>) request.getAttribute("posts");%>
     <%for (Post post : posts) {%>
 
     <div class="panel panel-default">

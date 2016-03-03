@@ -23,14 +23,14 @@
                 </li>
                 <li
                         <% if ("add.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
-                ><a href="/add.jsp">Add Post</a></li>
+                ><a href="/post?action=new">Add Post</a></li>
                 <li
                         <% if ("allUsers.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
-                ><a href="/allUsers.jsp">Users</a></li>
+                ><a href="/user">Users</a></li>
             </ul>
             <form action="LogoutServlet" method="post" id="super">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><%=user.getUsername()%>
+                    <li><a href="/user?id=<%=user.getId()%>"><%=user.getUsername()%>
                     </a></li>
                     <li><a href="#" onclick="document.getElementById('super').submit(value='Logout')">Logout</a></li>
                 </ul>
