@@ -60,5 +60,11 @@ public class DatabaseConnection implements Closeable {
         }
         log.info("Closed connection");
     }
+
+    public static String sanitize(String string) {
+        return string
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;");
+    }
 }
 

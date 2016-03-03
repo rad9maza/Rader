@@ -9,6 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static ua.rbolck.rader.model.DatabaseConnection.sanitize;
+
 public class PostDAOImpl implements PostDAOI {
 
     private static final Logger log = Logger.getLogger(PostDAOImpl.class);
@@ -101,8 +103,8 @@ public class PostDAOImpl implements PostDAOI {
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
              PreparedStatement ps = connection.prepareStatement(INSERT_POST)) {
-            ps.setString(1, post.getTitle());
-            ps.setString(2, post.getContent());
+            ps.setString(1, sanitize(post.getTitle()));
+            ps.setString(2, sanitize(post.getContent()));
             ps.setInt(3, post.getAuthor().getId());
             ps.executeQuery();
             return true;

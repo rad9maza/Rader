@@ -4,14 +4,18 @@ import org.apache.log4j.Logger;
 import ua.rbolck.rader.dao.PostDAOI;
 import ua.rbolck.rader.dao.PostDAOImpl;
 import ua.rbolck.rader.entity.Post;
+import ua.rbolck.rader.entity.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 public class PostServlet extends HttpServlet {
 
@@ -57,6 +61,17 @@ public class PostServlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
 
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PostDAOI postDAOI = new PostDAOImpl();
+        HttpSession session = request.getSession();
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        User author = (User) session.getAttribute("user");
+        postDAOI.save(new Post(0, title, content, 0, 0, author, new Timestamp(new Date().getTime())));
+        response.sendRedirect("/post");
 
     }
 }

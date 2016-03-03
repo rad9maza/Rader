@@ -23,6 +23,6 @@ CREATE TABLE users
 (
   user_id       INT UNIQUE PRIMARY KEY DEFAULT nextval('auto_id_users'),
   group_id      INT,
-  user_name     VARCHAR(16),
+  user_name     VARCHAR(16) UNIQUE,
   user_password VARCHAR(16)
 );

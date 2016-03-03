@@ -15,4 +15,5 @@ public interface UserDAOI {
 
     boolean remove(int id);
 
+    User getByCredentials(String login, String password);
 }
