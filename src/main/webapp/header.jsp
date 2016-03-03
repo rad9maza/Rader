@@ -22,11 +22,17 @@
                 ><a href="/post">Feed</a>
                 </li>
                 <li
-                        <% if ("add.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
-                ><a href="/post?action=new">Add Post</a></li>
-                <li
                         <% if ("allUsers.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
-                ><a href="/user">Users</a></li>
+                ><a href="/user">Users</a>
+                </li>
+                <li
+                        <% if ("add.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
+                ><a href="/post?action=new">Add Post</a>
+                </li>
+                <li
+                        <% if ("addUser.jsp".equals(url)) {%><%="class=\"active\""%><%}%>
+                ><a href="/user?action=new">Add User</a>
+                </li>
             </ul>
             <form action="LogoutServlet" method="post" id="super">
                 <ul class="nav navbar-nav navbar-right">

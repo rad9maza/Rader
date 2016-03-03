@@ -23,6 +23,7 @@ public class UserDAOImpl implements UserDAOI {
 
     private static final String INSERT_USER = "INSERT INTO users VALUES(DEFAULT, ?, ?, ?)";
     private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
+    private static final String UPDATE_USER = "UPDATE users SET user_name = ?, user_password = ?, group_id = ? WHERE user_id IN (?)";
 
     public User getGroup(int id) {
         User group = null;
@@ -119,11 +120,20 @@ public class UserDAOImpl implements UserDAOI {
     public boolean save(User user) {
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
-             PreparedStatement ps = connection.prepareStatement(INSERT_USER)) {
-            ps.setInt(1, user.getGroup_id());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getPassword());
-            ps.executeQuery();
+             PreparedStatement ps = connection.prepareStatement(user.getId() != 0 ? UPDATE_USER : INSERT_USER)) {
+            if (user.getId() != 0) {
+                ps.setString(1, user.getUsername());
+                ps.setString(2, user.getPassword());
+                ps.setInt(3, user.getGroup_id());
+                ps.setInt(4, user.getId());
+                ps.executeUpdate();
+            } else {
+                ps.setInt(1, user.getGroup_id());
+                ps.setString(2, user.getUsername());
+                ps.setString(3, user.getPassword());
+                ps.executeUpdate();
+            }
+
             return true;
         } catch (SQLException e) {
             log.error("SQLException present while create" + user.toString(), e);

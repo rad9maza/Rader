@@ -30,7 +30,7 @@ public class UserServlet extends HttpServlet {
             if ("edit".equals(action) && (id != 0)) {
                 User user = userDAO.get(id);
                 if (user != null) {
-                    req.setAttribute("post", user);
+                    req.setAttribute("user", user);
                     jspName = "editUser.jsp";
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -67,6 +67,27 @@ public class UserServlet extends HttpServlet {
         requestDispatcher.forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserDAOI userDAO = new UserDAOImpl();
+        String action = request.getParameter("action");
+        String idParam = request.getParameter("id");
+        int id = Integer.parseInt((idParam == null ? "0" : ("".equals(idParam)) ? "-1" : idParam));
 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if (!(action == null || "".equals(action)) && id!=-1) {
+            log.info("ACTIIIOOOOOOONNNN");
+            if ("edit".equals(action) || "new".equals(action)) {
+                log.info("EDITTTTTTTTTTTTTTTTTTTTTTT");
+                int group = Integer.parseInt(request.getParameter("group"));
+                userDAO.save(new User(id, group, username, password));
+            } else if ("remove".equals(action)) {
+                userDAO.remove(id);
+            }
+        }
+        response.sendRedirect("/user");
+    }
 }
 

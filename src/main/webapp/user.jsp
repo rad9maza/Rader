@@ -19,6 +19,10 @@
             <p><b>username: </b><%=user.getUsername()%></p>
             <p><b>password: </b><%=user.getPassword()%></p>
             <p><b>groupname: </b><%=userDAO.getGroup(user.getId()).getUsername()%></p>
+            <form role="form" action="/user?action=remove&id=<%=user.getId()%>" method="post">
+                <a href="/user?action=edit&id=<%=user.getId()%>" class="btn btn-default btn-lg" role="button">Edit
+                </a><button type="submit" class="btn btn-default btn-lg">Delete</button>
+            </form>
         </div>
     </div>
 </div>
