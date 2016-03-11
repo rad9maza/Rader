@@ -50,7 +50,7 @@ public class PostServlet extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } else {
-                Collection<Post> posts = postDAO.getAll();
+                Collection<Post> posts = postDAO.getAllLimited(5);
                 req.setAttribute("posts", posts);
             }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(jspName);
