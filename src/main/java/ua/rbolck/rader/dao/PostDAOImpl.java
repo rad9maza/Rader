@@ -16,16 +16,14 @@ public class PostDAOImpl implements PostDAOI {
     private static final Logger log = Logger.getLogger(PostDAOImpl.class);
 
     private static final String GET_POST_BY_ID_QUERY = "SELECT * FROM posts WHERE post_id = ?";
-    private static final String GET_ALL_POSTS = "SELECT * FROM posts WHERE post_parent_id IS NULL";
+    private static final String GET_ALL_POSTS = "SELECT * FROM posts WHERE post_parent_id IS NULL ORDER BY creation_date DESC";
     private static final String GET_LAST_N_POSTS = "SELECT * FROM posts WHERE post_parent_id IS NULL ORDER BY creation_date DESC LIMIT ?";
 
     private static final String INSERT_POST = "INSERT INTO posts VALUES(DEFAULT, NULL, ?, ?, DEFAULT, DEFAULT, ?, DEFAULT)";
     private static final String DELETE_POST_BY_ID = "DELETE FROM posts WHERE post_id = ?";
     private static final String UPDATE_POST = "UPDATE posts SET post_title = ?, post_content = ?, " +
-            "post_likes = ?, post_dislikes = ? WHERE post_id = ?";
-    private static final String UPSERT_POST = "INSERT INTO posts VALUES(DEFAULT, NULL, ?, ?, DEFAULT, DEFAULT, ?, DEFAULT) " +
-            "ON CONFLICT (post_id) UPDATE SET post_title = ?, post_content = ?, " +
-            "post_likes = ?, post_dislikes = ? WHERE post_id = ?";
+            "post_likes = ?, post_dislikes = ? , creation_date = ? WHERE post_id = ?";
+
     public Post get(int id) {
         Post post = null;
         try (DatabaseConnection db = DatabaseConnection.getInstance();
@@ -37,7 +35,6 @@ public class PostDAOImpl implements PostDAOI {
                     post = new Post(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4),
                             resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7),
                             resultSet.getTimestamp(8));
-
                     log.info("Get " + post.toString());
                 }
             }
@@ -88,9 +85,7 @@ public class PostDAOImpl implements PostDAOI {
                     post = new Post(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4),
                             resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7),
                             resultSet.getTimestamp(8));
-
                     log.info(post.toString());
-
                     posts.add(post);
 
                 }
@@ -106,8 +101,8 @@ public class PostDAOImpl implements PostDAOI {
     public boolean save(Post post) {
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
-             PreparedStatement ps = connection.prepareStatement(post.getId()==0 ? INSERT_POST : UPDATE_POST)) {
-            if (post.getId()==0) {
+             PreparedStatement ps = connection.prepareStatement(post.getId() == 0 ? INSERT_POST : UPDATE_POST)) {
+            if (post.getId() == 0) {
                 ps.setString(1, sanitize(post.getTitle()));
                 ps.setString(2, sanitize(post.getContent()));
                 ps.setInt(3, post.getAuthor().getId());
@@ -116,7 +111,8 @@ public class PostDAOImpl implements PostDAOI {
                 ps.setString(2, sanitize(post.getContent()));
                 ps.setInt(3, post.getLikes());
                 ps.setInt(4, post.getDislikes());
-                ps.setInt(5, post.getId());
+                ps.setTimestamp(5, post.getCreationDate());
+                ps.setInt(6, post.getId());
             }
             ps.executeUpdate();
             return true;

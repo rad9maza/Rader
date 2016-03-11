@@ -13,9 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 public class PostServlet extends HttpServlet {
 
@@ -77,7 +76,7 @@ public class PostServlet extends HttpServlet {
 
         if (!(action == null || "".equals(action)) && id!=-1) {
             if ("edit".equals(action) || "new".equals(action)) {
-                postDAOI.save(new Post(id, title, content, 0, 0, author, new Timestamp(new Date().getTime())));
+                postDAOI.save(new Post(id, title, content, 0, 0, author, new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())));
             } else if ("remove".equals(action)) {
                 postDAOI.remove(id);
             }
