@@ -8,7 +8,7 @@
 <body>
 <jsp:include page="header.jsp" />
 <div class="container" style="width:80%;">
-    <form role="form" action="/post" method="post">
+    <form role="form" action="/post?action=new" method="post">
         <div class="form-group">
             <label for="title">Заголовок</label>
             <input type="text" class="form-control" id="title" placeholder="Title" value="" name="title">

@@ -21,7 +21,11 @@ public class PostDAOImpl implements PostDAOI {
 
     private static final String INSERT_POST = "INSERT INTO posts VALUES(DEFAULT, NULL, ?, ?, DEFAULT, DEFAULT, ?, DEFAULT)";
     private static final String DELETE_POST_BY_ID = "DELETE FROM posts WHERE post_id = ?";
-
+    private static final String UPDATE_POST = "UPDATE posts SET post_title = ?, post_content = ?, " +
+            "post_likes = ?, post_dislikes = ? WHERE post_id = ?";
+    private static final String UPSERT_POST = "INSERT INTO posts VALUES(DEFAULT, NULL, ?, ?, DEFAULT, DEFAULT, ?, DEFAULT) " +
+            "ON CONFLICT (post_id) UPDATE SET post_title = ?, post_content = ?, " +
+            "post_likes = ?, post_dislikes = ? WHERE post_id = ?";
     public Post get(int id) {
         Post post = null;
         try (DatabaseConnection db = DatabaseConnection.getInstance();
@@ -102,11 +106,19 @@ public class PostDAOImpl implements PostDAOI {
     public boolean save(Post post) {
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
-             PreparedStatement ps = connection.prepareStatement(INSERT_POST)) {
-            ps.setString(1, sanitize(post.getTitle()));
-            ps.setString(2, sanitize(post.getContent()));
-            ps.setInt(3, post.getAuthor().getId());
-            ps.executeQuery();
+             PreparedStatement ps = connection.prepareStatement(post.getId()==0 ? INSERT_POST : UPDATE_POST)) {
+            if (post.getId()==0) {
+                ps.setString(1, sanitize(post.getTitle()));
+                ps.setString(2, sanitize(post.getContent()));
+                ps.setInt(3, post.getAuthor().getId());
+            } else {
+                ps.setString(1, sanitize(post.getTitle()));
+                ps.setString(2, sanitize(post.getContent()));
+                ps.setInt(3, post.getLikes());
+                ps.setInt(4, post.getDislikes());
+                ps.setInt(5, post.getId());
+            }
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             log.error("SQLException present while create" + post.toString(), e);
@@ -121,7 +133,7 @@ public class PostDAOImpl implements PostDAOI {
              Connection connection = db.getConnection();
              PreparedStatement ps = connection.prepareStatement(DELETE_POST_BY_ID)) {
             ps.setInt(1, id);
-            ps.executeQuery();
+            ps.executeUpdate();
             log.info("Post with id = " + id + " was deleted");
             return true;
         } catch (SQLException e) {

@@ -13,17 +13,24 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <b><a href="<%="/user?id=" + post.getAuthor().getId()%>"><%=post.getAuthor().getUsername()%>:</a></b>
+                <b><a href="<%=(post.getAuthor() == null) ? "" : "/user?id=" + post.getAuthor().getId()%>">
+                    <%=(post.getAuthor() == null) ? "DELETED_USER" : post.getAuthor().getUsername()%>:</a></b>
                 <%=" " + post.getTitle()%>
                 <div style="float: right;">
-                    <a href="" >
-                        <span class="badge"><%=post.getLikes()%></span>
-                        <span class="glyphicon glyphicon-thumbs-up"></span></a>
-                    <a href="" >
-                        <span class="badge"><%=post.getDislikes()%></span>
-                        <span class="glyphicon glyphicon-thumbs-down"></span></a>
-                    <a href="<%="/post?action=edit&id=" + post.getId()%>" >
-                        <span class="glyphicon glyphicon-pencil"></span></a>
+                    <form role="form" id="removeId=<%=post.getId()%>"
+                          action="<%="/post?action=remove&id=" + post.getId()%>" method="post">
+                        <a href="">
+                            <span class="badge"><%=post.getLikes()%></span>
+                            <span class="glyphicon glyphicon-thumbs-up"></span></a>
+                        <a href="">
+                            <span class="badge"><%=post.getDislikes()%></span>
+                            <span class="glyphicon glyphicon-thumbs-down"></span></a>
+                        <a href="<%="/post?action=edit&id=" + post.getId()%>">
+                            <span class="glyphicon glyphicon-pencil"></span></a>
+                        <%--<a href="#" onclick="document.getElementById('super').submit(value='Logout')">Logout</a>--%>
+                        <a href="#" onclick="document.getElementById('removeId=<%=post.getId()%>').submit()">
+                            <span class="glyphicon glyphicon-trash"></span></a>
+                    </form>
                 </div>
             </h3>
         </div>

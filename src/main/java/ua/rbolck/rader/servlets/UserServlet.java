@@ -78,9 +78,7 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         if (!(action == null || "".equals(action)) && id!=-1) {
-            log.info("ACTIIIOOOOOOONNNN");
             if ("edit".equals(action) || "new".equals(action)) {
-                log.info("EDITTTTTTTTTTTTTTTTTTTTTTT");
                 int group = Integer.parseInt(request.getParameter("group"));
                 userDAO.save(new User(id, group, username, password));
             } else if ("remove".equals(action)) {

@@ -67,10 +67,23 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PostDAOI postDAOI = new PostDAOImpl();
         HttpSession session = request.getSession();
+        User author = (User) session.getAttribute("user");
+
         String title = request.getParameter("title");
         String content = request.getParameter("content");
-        User author = (User) session.getAttribute("user");
-        postDAOI.save(new Post(0, title, content, 0, 0, author, new Timestamp(new Date().getTime())));
+        String action = request.getParameter("action");
+        String idParam = request.getParameter("id");
+        int id = Integer.parseInt((idParam == null ? "0" : ("".equals(idParam)) ? "-1" : idParam));
+
+        if (!(action == null || "".equals(action)) && id!=-1) {
+            if ("edit".equals(action) || "new".equals(action)) {
+                postDAOI.save(new Post(id, title, content, 0, 0, author, new Timestamp(new Date().getTime())));
+            } else if ("remove".equals(action)) {
+                postDAOI.remove(id);
+            }
+        }
+
+
         response.sendRedirect("/post");
 
     }
