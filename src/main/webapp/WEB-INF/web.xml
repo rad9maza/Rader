@@ -19,6 +19,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>PostAjax</servlet-name>
+        <servlet-class>ua.rbolck.rader.servlets.PostAjaxServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>PostAjax</servlet-name>
+        <url-pattern>/ajax/post</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>User</servlet-name>
         <servlet-class>ua.rbolck.rader.servlets.UserServlet</servlet-class>
     </servlet>
