@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 
 public class PostAjaxServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter pw = resp.getWriter();
         resp.setContentType("application/json");
         StringBuilder sb = new StringBuilder("{");
@@ -31,10 +31,5 @@ public class PostAjaxServlet extends HttpServlet {
         sb.append("}");
         pw.write(sb.toString());
         pw.close();
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 }

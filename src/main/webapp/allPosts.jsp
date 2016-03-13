@@ -1,14 +1,9 @@
 <%@ page import="ua.rbolck.rader.entity.Post" %>
 <%@ page import="java.util.Collection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Feed</title>
-    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
-</head>
-<body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="Feed" />
+</jsp:include>
 <div class="container" style="width:80%;">
     <%Collection<Post> posts = (Collection<Post>) request.getAttribute("posts");%>
     <%for (Post post : posts) {%>
@@ -21,12 +16,13 @@
                 <a href="<%="/post?id=" + post.getId()%>"><%=" " + post.getTitle()%>
                 </a>
                 <div style="float: right;">
-                    <form role="form" id="removeId=<%=post.getId()%>" action="<%="/post?action=remove&id=" + post.getId()%>" method="post">
-                        <a href="">
-                            <span class="badge"><%=post.getLikes()%></span>
+                    <form role="form" id="removeId=<%=post.getId()%>"
+                          action="<%="/post?action=remove&id=" + post.getId()%>" method="post">
+                        <a onclick="like(<%=post.getId()%>)">
+                            <span class="badge likes<%=post.getId()%>"><%=post.getLikes()%></span>
                             <span class="glyphicon glyphicon-thumbs-up"></span></a>
-                        <a href="">
-                            <span class="badge"><%=post.getDislikes()%></span>
+                        <a onclick="dislike(<%=post.getId()%>)">
+                            <span class="badge dislikes<%=post.getId()%>"><%=post.getDislikes()%></span>
                             <span class="glyphicon glyphicon-thumbs-down"></span></a>
                         <a href="<%="/post?action=edit&id=" + post.getId()%>">
                             <span class="glyphicon glyphicon-pencil"></span></a>
@@ -43,6 +39,9 @@
 
     </div>
     <%}%>
+    <%--TODO http://stackoverflow.com/questions/3898130/check-if-a-user-has-scrolled-to-the-bottom--%>
 </div>
 </body>
+<jsp:include page="scripts.jsp"/>
+<script src="js/post_ajax.js"></script>
 </html>
