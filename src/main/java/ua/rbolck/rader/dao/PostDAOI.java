@@ -15,4 +15,6 @@ public interface PostDAOI {
     boolean save(Post post);
 
     boolean remove(int id);
+
+    boolean changeRating(int id, int delta);
 }

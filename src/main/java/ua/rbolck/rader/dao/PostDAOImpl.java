@@ -23,6 +23,8 @@ public class PostDAOImpl implements PostDAOI {
     private static final String DELETE_POST_BY_ID = "DELETE FROM posts WHERE post_id = ?";
     private static final String UPDATE_POST = "UPDATE posts SET post_title = ?, post_content = ?, " +
             "post_likes = ?, post_dislikes = ? , creation_date = ? WHERE post_id = ?";
+    private static final String LIKE_POST = "UPDATE posts SET post_likes = post_likes + ? WHERE post_id = ?";
+    private static final String DISLIKE_POST = "UPDATE posts SET post_dislikes = post_dislikes + ? WHERE post_id = ?";
 
     public Post get(int id) {
         Post post = null;
@@ -136,6 +138,22 @@ public class PostDAOImpl implements PostDAOI {
             log.error("SQLException present while remove post by id=" + id, e);
         } catch (IOException e) {
             log.error("IOException present while remove post by id=" + id, e);
+        }
+        return false;
+    }
+
+    public boolean changeRating(int id, int delta) {
+        try (DatabaseConnection db = DatabaseConnection.getInstance();
+             Connection connection = db.getConnection();
+             PreparedStatement ps = connection.prepareStatement((delta > 0) ? LIKE_POST : DISLIKE_POST)) {
+            ps.setInt(1, Math.abs(delta));
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            log.error("SQLException present while changing rating of post " + id, e);
+        } catch (IOException e) {
+            log.error("IOException present while changing rating of post " + id, e);
         }
         return false;
     }
