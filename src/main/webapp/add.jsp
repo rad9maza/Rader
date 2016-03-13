@@ -1,12 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Add</title>
-    <meta charset="utf-8">
-    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
-</head>
-<body>
-<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="Add" />
+</jsp:include>
 <div class="container" style="width:80%;">
     <form role="form" action="/post?action=new" method="post">
         <div class="form-group">

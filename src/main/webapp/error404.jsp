@@ -7,14 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Welcome in the Rader</title>
-    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
-</head>
-<body>
-<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="404 Not found" />
+</jsp:include>
 <div class="container" style="width:80%;">
     <div class="jumbotron" style="padding-left: 60px; padding-right: 60px;">
         <h1>HTTP Status 404</h1>

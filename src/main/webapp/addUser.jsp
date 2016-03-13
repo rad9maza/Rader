@@ -1,13 +1,8 @@
 <%@ page import="ua.rbolck.rader.entity.Post" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>New user</title>
-    <meta charset="utf-8">
-    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
-</head>
-<body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="New user" />
+</jsp:include>
 <div class="container" style="width:80%;">
     <form role="form" action="/user?action=new" method="post">
         <div class="form-group">

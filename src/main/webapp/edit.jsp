@@ -1,13 +1,8 @@
 <%@ page import="ua.rbolck.rader.entity.Post" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Edit</title>
-    <meta charset="utf-8">
-    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
-</head>
-<body>
-<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp">
+    <jsp:param name="title" value="Edit" />
+</jsp:include>
 <%
     Post post = (Post) request.getAttribute("post");
 %>

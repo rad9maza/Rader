@@ -2,7 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Header</title>
+    <title><%=request.getParameter("title")%></title>
+    <meta charset="utf-8">
+    <link rel='StyleSheet' type='text/css' href='css/bootstrap.css'/>
 </head>
 <body>
 <div class="navbar navbar-default" role="navigation">
