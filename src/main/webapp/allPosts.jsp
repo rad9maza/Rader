@@ -13,8 +13,7 @@
             <h3 class="panel-title">
                 <b><a href="<%=(post.getAuthor() == null) ? "" : "/user?id=" + post.getAuthor().getId()%>">
                     <%=(post.getAuthor() == null) ? "DELETED_USER" : post.getAuthor().getUsername()%>:</a></b>
-                <a href="<%="/post?id=" + post.getId()%>"><%=" " + post.getTitle()%>
-                </a>
+                <a href="<%="/post?id=" + post.getId()%>"><%=" " + post.getTitle()%></a>
                 <div style="float: right;">
                     <form role="form" id="removeId=<%=post.getId()%>"
                           action="<%="/post?action=remove&id=" + post.getId()%>" method="post">
@@ -44,4 +43,5 @@
 </body>
 <jsp:include page="scripts.jsp"/>
 <script src="js/post_ajax.js"></script>
+<script src="js/scroll.js"></script>
 </html>
