@@ -50,7 +50,7 @@ public class PostServlet extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } else {
-                Collection<Post> posts = postDAO.getAllLimited(5);
+                Collection<Post> posts = postDAO.getAllLimited(10, 0);
                 req.setAttribute("posts", posts);
             }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(jspName);
@@ -77,13 +77,20 @@ public class PostServlet extends HttpServlet {
         if (!(action == null || "".equals(action)) && id!=-1) {
             if ("edit".equals(action) || "new".equals(action)) {
                 postDAOI.save(new Post(id, title, content, 0, 0, author, new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())));
+                response.sendRedirect("/post");
             } else if ("remove".equals(action)) {
                 postDAOI.remove(id);
+                response.sendRedirect("/post");
+            } else if ("newComment".equals(action)) {
+                postDAOI.addComment(new Post(0, id, title, content, 0, 0, author, new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())));
+                response.sendRedirect("/post?id=" + id);
+            } else if ("removeComment".equals(action)) {
+                postDAOI.remove(id);
+                response.sendRedirect("/post?id=" + id);
             }
         }
 
 
-        response.sendRedirect("/post");
 
     }
 }

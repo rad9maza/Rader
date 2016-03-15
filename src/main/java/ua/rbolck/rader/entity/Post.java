@@ -7,7 +7,9 @@ import java.sql.Timestamp;
 
 public class Post {
 
+
     private int id;
+    private int parentID;
     private String title;
     private String content;
     private int likes;
@@ -18,6 +20,17 @@ public class Post {
 
     public Post(int id, String title, String content, int likes, int dislikes, User author, Timestamp creationDate) {
         this.id = id;
+        this.title = title;
+        this.content = content;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.author = author;
+        this.creationDate = creationDate;
+    }
+
+    public Post(int id, int parentID, String title, String content, int likes, int dislikes, User author, Timestamp creationDate) {
+        this.id = id;
+        this.parentID = parentID;
         this.title = title;
         this.content = content;
         this.likes = likes;
@@ -38,6 +51,15 @@ public class Post {
 
     public String toString() {
         return "Post with id = " + id + ", has title: " + title + ", content: " + content + ", and creationDate: " + creationDate.toString();
+    }
+
+
+    public int getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(int parentID) {
+        this.parentID = parentID;
     }
 
     public int getId() {
