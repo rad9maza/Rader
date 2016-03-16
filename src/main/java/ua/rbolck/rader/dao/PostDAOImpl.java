@@ -108,16 +108,22 @@ public class PostDAOImpl implements PostDAOI {
              Connection connection = db.getConnection();
              PreparedStatement ps = connection.prepareStatement(post.getId() == 0 ? INSERT_POST : UPDATE_POST)) {
             if (post.getId() == 0) {
+
                 ps.setString(1, sanitize(post.getTitle()));
                 ps.setString(2, sanitize(post.getContent()));
                 ps.setInt(3, post.getAuthor().getId());
+                log.info("New post was added to DB");
+
             } else {
+
                 ps.setString(1, sanitize(post.getTitle()));
                 ps.setString(2, sanitize(post.getContent()));
                 ps.setInt(3, post.getLikes());
                 ps.setInt(4, post.getDislikes());
                 ps.setTimestamp(5, post.getCreationDate());
                 ps.setInt(6, post.getId());
+                log.info("Post with id = " + post.getId() + "was updated");
+
             }
             ps.executeUpdate();
             return true;
@@ -152,6 +158,7 @@ public class PostDAOImpl implements PostDAOI {
             ps.setInt(1, Math.abs(delta));
             ps.setInt(2, id);
             ps.executeUpdate();
+            log.info("Update rating to post with id = " + id + " (" + delta + ")");
             return true;
         } catch (SQLException e) {
             log.error("SQLException present while changing rating of post " + id, e);
@@ -193,13 +200,11 @@ public class PostDAOImpl implements PostDAOI {
     public boolean addComment(Post post) {
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
-             PreparedStatement ps = connection.prepareStatement(/*post.getId() == 0 ? */INSERT_COMMENT)) {
-//            if (post.getId() == 0) {
-                ps.setInt(1, post.getParentID());
-                ps.setString(2, sanitize(post.getContent()));
-                ps.setString(3, sanitize(post.getContent()));
-                ps.setInt(4, post.getAuthor().getId());
-//            }
+             PreparedStatement ps = connection.prepareStatement(INSERT_COMMENT)) {
+            ps.setInt(1, post.getParentID());
+            ps.setString(2, sanitize(post.getContent()));
+            ps.setString(3, sanitize(post.getContent()));
+            ps.setInt(4, post.getAuthor().getId());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {

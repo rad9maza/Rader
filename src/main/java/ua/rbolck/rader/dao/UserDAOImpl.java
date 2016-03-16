@@ -9,6 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static ua.rbolck.rader.model.DatabaseConnection.sanitize;
+
 public class UserDAOImpl implements UserDAOI {
 
     private static final Logger log = Logger.getLogger(PostDAOImpl.class);
@@ -55,7 +57,6 @@ public class UserDAOImpl implements UserDAOI {
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     user = new User(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));
-
                     log.info("Get " + user.toString());
                 }
             }
@@ -122,15 +123,15 @@ public class UserDAOImpl implements UserDAOI {
              Connection connection = db.getConnection();
              PreparedStatement ps = connection.prepareStatement(user.getId() != 0 ? UPDATE_USER : INSERT_USER)) {
             if (user.getId() != 0) {
-                ps.setString(1, user.getUsername());
-                ps.setString(2, user.getPassword());
+                ps.setString(1, sanitize(user.getUsername()));
+                ps.setString(2, sanitize(user.getPassword()));
                 ps.setInt(3, user.getGroup_id());
                 ps.setInt(4, user.getId());
                 ps.executeUpdate();
             } else {
                 ps.setInt(1, user.getGroup_id());
-                ps.setString(2, user.getUsername());
-                ps.setString(3, user.getPassword());
+                ps.setString(2, sanitize(user.getUsername()));
+                ps.setString(3, sanitize(user.getPassword()));
                 ps.executeUpdate();
             }
 
@@ -166,8 +167,8 @@ public class UserDAOImpl implements UserDAOI {
         try (DatabaseConnection db = DatabaseConnection.getInstance();
              Connection connection = db.getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_USER_BY_CREDENTIALS_QUERY)) {
-            ps.setString(1, login);
-            ps.setString(2, password);
+            ps.setString(1, sanitize(login));
+            ps.setString(2, sanitize(password));
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     user = new User(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getString(4));

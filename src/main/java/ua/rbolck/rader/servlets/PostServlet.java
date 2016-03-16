@@ -31,6 +31,7 @@ public class PostServlet extends HttpServlet {
             String jspName = "allPosts.jsp";
             if (!(action == null || "".equals(action))) {
                 if ("edit".equals(action) && (id != 0)) {
+                    log.info("Edit post with id = " + id);
                     Post post = postDAO.get(id);
                     if (post != null) {
                         req.setAttribute("post", post);
@@ -39,11 +40,13 @@ public class PostServlet extends HttpServlet {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                     }
                 } else if ("new".equals(action)) {
+                    log.info("Add new post");
                     jspName = "add.jsp";
                 }
             } else if (id != 0) {
                 Post post = postDAO.get(id);
                 if (post != null) {
+                    log.info("Show post with id = " + id);
                     req.setAttribute("post", post);
                     jspName = "post.jsp";
                 } else {
@@ -74,23 +77,27 @@ public class PostServlet extends HttpServlet {
         String idParam = request.getParameter("id");
         int id = Integer.parseInt((idParam == null ? "0" : ("".equals(idParam)) ? "-1" : idParam));
 
-        if (!(action == null || "".equals(action)) && id!=-1) {
+        String commentIdParam = request.getParameter("commentId");
+        int commentId = Integer.parseInt((commentIdParam == null ? "0" : ("".equals(commentIdParam)) ? "-1" : commentIdParam));
+
+        if (!(action == null || "".equals(action)) && id != -1) {
             if ("edit".equals(action) || "new".equals(action)) {
                 postDAOI.save(new Post(id, title, content, 0, 0, author, new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())));
+                log.info("Post with id = " + id + " was edited");
                 response.sendRedirect("/post");
             } else if ("remove".equals(action)) {
                 postDAOI.remove(id);
+                log.info("Post with id = " + id + " was removed");
                 response.sendRedirect("/post");
             } else if ("newComment".equals(action)) {
                 postDAOI.addComment(new Post(0, id, title, content, 0, 0, author, new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())));
+                log.info("To post with id = " + id + " was added new comment");
                 response.sendRedirect("/post?id=" + id);
             } else if ("removeComment".equals(action)) {
-                postDAOI.remove(id);
+                postDAOI.remove(commentId);
+                log.info("From post with id = " + id + " was removed comment");
                 response.sendRedirect("/post?id=" + id);
             }
         }
-
-
-
     }
 }

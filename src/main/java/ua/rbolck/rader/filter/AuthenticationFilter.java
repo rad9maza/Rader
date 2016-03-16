@@ -1,5 +1,7 @@
 package ua.rbolck.rader.filter;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -9,24 +11,26 @@ import java.io.IOException;
 
 @WebFilter("/AuthenticationFilter")
 public class AuthenticationFilter implements Filter {
+    private static final Logger log = Logger.getLogger(AuthenticationFilter.class);
+
+
     private ServletContext context;
 
     public void init(FilterConfig fConfig) throws ServletException {
         this.context = fConfig.getServletContext();
-        this.context.log("AuthenticationFilter initialized");
+        log.info("AuthenticationFilter initialized");
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
-        this.context.log("Requested Resource::" + uri);
+        log.info("Requested Resource::" + uri);
         HttpSession session = req.getSession(false);
         if (session == null && !(uri.endsWith("html") || uri.endsWith("LoginServlet"))) {
-            this.context.log("Unauthorized access request");
+            log.info("Unauthorized access request");
             res.sendRedirect("/login.html");
         } else {
-            // pass the request along the filter chain
             chain.doFilter(request, response);
         }
     }

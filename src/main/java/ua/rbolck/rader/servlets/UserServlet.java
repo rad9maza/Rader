@@ -30,26 +30,30 @@ public class UserServlet extends HttpServlet {
             if ("edit".equals(action) && (id != 0)) {
                 User user = userDAO.get(id);
                 if (user != null) {
+                    log.info("Edit user with id = " + id);
                     req.setAttribute("user", user);
                     jspName = "editUser.jsp";
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } else if ("new".equals(action)) {
+                log.info("Add new user");
                 jspName = "addUser.jsp";
             }
         } else if (id != 0) {
             User user = userDAO.get(id);
             if (user != null) {
+                log.info("Show user with id = " + id);
                 req.setAttribute("user", user);
                 jspName = "user.jsp";
             } else {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } else if (groupId != 0) {
-            System.out.println("groupId= "+groupId);
+            System.out.println("groupId = " + groupId);
             Collection<User> users = userDAO.getAllUsersFromGroup(groupId);
             if (users != null) {
+                log.info("Show user group with groupId = " + groupId);
                 jspName = "usersFromGroup.jsp";
                 req.setAttribute("users", users);
             } else {
@@ -60,8 +64,11 @@ public class UserServlet extends HttpServlet {
             Collection<User> moders = userDAO.getAllUsersFromGroup(3);
             Collection<User> users = userDAO.getAllUsersFromGroup(4);
             req.setAttribute("admins", admins);
+            log.info("Show user group admins");
             req.setAttribute("moders", moders);
+            log.info("Show user group moders");
             req.setAttribute("users", users);
+            log.info("Show user group users");
         }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(jspName);
         requestDispatcher.forward(req, resp);
@@ -77,11 +84,13 @@ public class UserServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (!(action == null || "".equals(action)) && id!=-1) {
+        if (!(action == null || "".equals(action)) && id != -1) {
             if ("edit".equals(action) || "new".equals(action)) {
                 int group = Integer.parseInt(request.getParameter("group"));
                 userDAO.save(new User(id, group, username, password));
+                log.info("User with id = " + id + " was edited");
             } else if ("remove".equals(action)) {
+                log.info("User with id = " + id + " was removed");
                 userDAO.remove(id);
             }
         }

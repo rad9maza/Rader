@@ -49,7 +49,7 @@
                 </a>
                 <div style="float: right;">
                     <form role="form" id="removeId=<%=comment.getId()%>"
-                          action="<%="/post?action=removeComment&id=" + comment.getId()%>" method="post">
+                          action="<%="/post?action=removeComment&commentId=" + comment.getId() + "&id=" + post.getId()%>" method="post">
                         <a onclick="like(<%=comment.getId()%>)">
                             <span class="badge likes<%=comment.getId()%>"><%=comment.getLikes()%></span>
                             <span class="glyphicon glyphicon-thumbs-up"></span></a>

@@ -52,7 +52,6 @@ public class DatabaseConnection implements Closeable {
     @Override
     public void close() throws IOException {
         try {
-//            instance.close();
             connection.close();
             connection = null;
         } catch (SQLException e) {
